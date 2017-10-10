@@ -28,7 +28,7 @@ namespace Gank
         {
             base.OnNavigatedTo(e);
             if (e.NavigationMode == NavigationMode.New)
-                GankModel = (GankModel) e.Parameter;
+                GankModel = (GankModel)((object[]) e.Parameter)[0];
             GetGankDailyDate();
         }
 
@@ -52,5 +52,11 @@ namespace Gank
             if(items!=null && items.Count>0)
                 groupDates.Add(new GroupModel(items[0].Type, items));
         }
+
+        private void ListView_ItemClick(object sender, ItemClickEventArgs e)
+        {
+
+        }
+
     }
 }

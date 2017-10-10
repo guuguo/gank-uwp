@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:bean="using:Gank.Bean"
+     xmlns:pr="using:PullToRefresh.UWP"
     xmlns:controller="using:Gank.Controller"
     mc:Ignorable="d">
 
@@ -80,44 +81,13 @@
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="50" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
+ 
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition x:Name="MasterColumn" />
             <ColumnDefinition x:Name="DetailColumn" Width="*" />
         </Grid.ColumnDefinitions>
 
-        <Grid Background="#FF3B3C41">
-            <StackPanel Background="#33FFFFFF"
-                        Margin="6,6,6,6"
-                        CornerRadius="3"
-                        Orientation="Horizontal">
-                <Image Source="Assets/search.png" Margin="8,4,12,4" Width="22" Height="22" />
-                <TextBlock Text="搜索内容" Foreground="WhiteSmoke"
-                           VerticalAlignment="Center" />
-            </StackPanel>
-        </Grid>
-        <ListView
-            Padding="0,0,0,0"
-            x:Name="MasterListView"
-            Grid.Row="1"
-            Grid.Column="0"
-            ItemContainerTransitions="{x:Null}"
-            ItemTemplate="{StaticResource MasterListViewItemTemplate}"
-     
-            IsItemClickEnabled="True" ItemClick="MasterListView_ItemClick">
-            <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
-                    <Setter Property="Padding" Value="0,0,0,0"/>
-                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                </Style>
-            </ListView.ItemContainerStyle>
-        </ListView>
- 
-        
         <Grid x:Name="bg" Background="AliceBlue" Visibility="Visible" Grid.Column="1" Grid.RowSpan="2">
             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
                 <TextBlock Opacity="0.8" FontSize="18" HorizontalAlignment="Center">欢迎使用Gank</TextBlock>

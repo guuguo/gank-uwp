@@ -81,13 +81,12 @@ namespace Gank
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            FrameMaster.Navigate(typeof(BlankPage));
             FrameDetail.Navigate(typeof(BlankPage));
             NavigationHelper.MianNavigateToEvent += NavigationHelper_MianNavigateToEvent; ;
             NavigationHelper.DetailNavigateToEvent += NavigationHelperDetailNavigateToEvent; ;
             NavigationHelper.MasterNavigateToEvent += NavigationHelperMasterNavigateToEvent; ;
 
-            GetGankTypeDatas();
+            NavigationHelper.SendNavigateTo(NavigateMode.Master, typeof(GankListPage));
         }
 
 
@@ -109,12 +108,6 @@ namespace Gank
         }
 
      
-
-      private  async void GetGankTypeDatas()
-        {
-            GankTypeDatas datas =await ApiServer.GetGankTypeDatas(ApiServer.TypeFuli, 1);
-            MasterListView.ItemsSource = datas.Results;
-        }
 
         private void UpdateForVisualState(VisualState newState, VisualState oldState = null)
         {
@@ -174,6 +167,11 @@ namespace Gank
                 SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
 
             }
+        }
+
+        private void PullToRefreshBox_RefreshInvoked(Windows.UI.Xaml.DependencyObject sender, object args)
+        {
+
         }
     }
 }
