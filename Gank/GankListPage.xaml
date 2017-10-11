@@ -6,7 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:bean="using:Gank.Bean"
-     xmlns:pr="using:PullToRefresh.UWP"
+    xmlns:pr="using:PullToRefresh.UWP"
     xmlns:controller="using:Gank.Controller"
     mc:Ignorable="d">
 
@@ -17,7 +17,7 @@
     </Page.Transitions>
 
     <Page.Resources>
-        <DataTemplate  x:Key="MasterListViewItemTemplate" x:DataType="bean:GankModel">
+        <DataTemplate x:Key="MasterListViewItemTemplate" x:DataType="bean:GankModel">
             <Grid Height="250">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*" />
@@ -36,7 +36,7 @@
                     Foreground="White"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Bottom"
-                    
+
                     Text="{x:Bind  GetTimSpan(PublishedAt)}"
                     Style="{ThemeResource BaseTextBlockStyle}" FontSize="40" FontWeight="Bold" />
 
@@ -72,24 +72,25 @@
         <pr:PullToRefreshBox Grid.Row="1" x:Name="pr" RefreshInvoked="PullToRefreshBox_RefreshInvoked">
 
             <ListView
-            Padding="0,0,0,0"
-            x:Name="MasterListView"
-            Grid.Row="1"
-            Grid.Column="0"
+                Padding="0,0,0,0"
+                x:Name="MasterListView"
+                Grid.Row="1"
+                Grid.Column="0"
                 ItemsSource="{x:Bind viewModel.DataSource}"
-            ItemContainerTransitions="{x:Null}"
-            ItemTemplate="{StaticResource MasterListViewItemTemplate}"
-     
-            IsItemClickEnabled="True" ItemClick="MasterListView_ItemClick">
+                ItemContainerTransitions="{x:Null}"
+                ItemTemplate="{StaticResource MasterListViewItemTemplate}"
+
+                IsItemClickEnabled="True" ItemClick="MasterListView_ItemClick">
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
-                        <Setter Property="Padding" Value="0,0,0,0"/>
+                        <Setter Property="Padding" Value="0,0,0,0" />
                         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                     </Style>
                 </ListView.ItemContainerStyle>
             </ListView>
         </pr:PullToRefreshBox>
 
-        <controller:MessageShow x:Name="MessShow" VerticalAlignment="Bottom" Grid.RowSpan="2" Margin="20 76" HorizontalAlignment="Center"></controller:MessageShow>
+        <controller:MessageShow x:Name="MessShow" VerticalAlignment="Bottom" Grid.RowSpan="2" Margin="20 76"
+                                HorizontalAlignment="Center" />
     </Grid>
 </Page>

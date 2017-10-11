@@ -6,7 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:bean="using:Gank.Bean"
-     xmlns:pr="using:PullToRefresh.UWP"
+    xmlns:pr="using:PullToRefresh.UWP"
     xmlns:controller="using:Gank.Controller"
     mc:Ignorable="d">
 
@@ -16,55 +16,20 @@
         </TransitionCollection>
     </Page.Transitions>
 
-    <Page.Resources>
-        <DataTemplate  x:Key="MasterListViewItemTemplate" x:DataType="bean:GankModel">
-            <Grid Height="250">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="1*" />
-                    <RowDefinition Height="1*" />
-                    <RowDefinition Height="1" />
-                </Grid.RowDefinitions>
-
-                <Image
-                    Grid.RowSpan="2"
-                    Source="{x:Bind Url}" HorizontalAlignment="Stretch"
-                    VerticalAlignment="Center" Stretch="UniformToFill" />
-                <Rectangle Grid.RowSpan="2"
-                           HorizontalAlignment="Stretch"
-                           VerticalAlignment="Stretch" Fill="#33000000" />
-                <TextBlock
-                    Foreground="White"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Bottom"
-                    
-                    Text="{x:Bind  GetTimSpan(PublishedAt)}"
-                    Style="{ThemeResource BaseTextBlockStyle}" FontSize="40" FontWeight="Bold" />
-
-                <TextBlock
-                    Text="{x:Bind Who}"
-                    HorizontalAlignment="Center"
-                    FontSize="25" Grid.Row="1"
-                    Foreground="White"
-                    MaxLines="2" />
-                <Rectangle Grid.Row="2"
-                           Fill="Black" />
-            </Grid>
-        </DataTemplate>
-
-    </Page.Resources>
 
     <Grid x:Name="LayoutRoot" Loaded="LayoutRoot_Loaded">
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="AdaptiveStates" CurrentStateChanged="AdaptiveStates_CurrentStateChanged">
                 <VisualState x:Name="DefaultState">
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="701" />
+                        <AdaptiveTrigger MinWindowWidth="800" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="bg.Visibility" Value="Visible" />
-                        <Setter Target="MasterColumn.Width" Value="550"></Setter>
+                        <Setter Target="FrameDetail.Visibility" Value="Visible" />
+                        <Setter Target="MasterColumn.Width" Value="*"></Setter>
+                        <Setter Target="VLine.Visibility" Value="Visible" />
+                        <Setter Target="MasterColumn.MaxWidth" Value="650"></Setter>
                         <Setter Target="DetailColumn.Width" Value="*"></Setter>
-
                     </VisualState.Setters>
                 </VisualState>
 
@@ -74,29 +39,32 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="MasterColumn.MaxWidth" Value="800" />
-                        <Setter Target="bg.Visibility" Value="Collapsed" />
+                        <Setter Target="FrameDetail.Visibility" Value="Collapsed" />
+                        <Setter Target="VLine.Visibility" Value="Collapsed" />
                         <Setter Target="DetailColumn.Width" Value="0" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
 
- 
+
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition x:Name="MasterColumn" />
+            <ColumnDefinition Width="2" />
             <ColumnDefinition x:Name="DetailColumn" Width="*" />
         </Grid.ColumnDefinitions>
 
-       
-        <Frame x:Name="FrameMaster" Grid.RowSpan="2"  Navigated="FrameNavigation_Navigated">
+
+        <Frame x:Name="FrameMaster"  Navigated="FrameNavigation_Navigated">
             <Frame.ContentTransitions>
                 <TransitionCollection>
                     <EdgeUIThemeTransition Edge="Bottom" />
                 </TransitionCollection>
             </Frame.ContentTransitions>
         </Frame>
-        <Frame x:Name="FrameDetail" Grid.Column="1" Grid.RowSpan="2" Navigated="FrameContent_Navigated" >
+        <Rectangle Name="VLine" Grid.Column="1"  Fill="#FF3B3C41"/>
+        <Frame x:Name="FrameDetail" Grid.Column="2" Navigated="FrameContent_Navigated" >
             <Frame.ContentTransitions>
                 <TransitionCollection>
                     <EdgeUIThemeTransition Edge="Right" />

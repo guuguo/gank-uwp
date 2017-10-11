@@ -55,7 +55,6 @@ namespace Gank
         {
             var info = e.ClickedItem as GankModel;
             NavigationHelper.SendNavigateTo(NavigateMode.Master, typeof(DailyContentPage), info);
-            // FrameMaster.Navigate(typeof(DailyContentPage), info,new DrillInNavigationTransitionInfo());
         }
 
         private void PullToRefreshBox_RefreshInvoked(DependencyObject sender, object args)

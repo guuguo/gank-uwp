@@ -1,43 +1,55 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI;
 using Windows.UI.Core;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using Gank.Bean;
 using Gank.Helper;
-using Gank.Net;
 
 // https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x804 上介绍了“空白页”项模板
 
 namespace Gank
 {
     /// <summary>
-    /// 可用于自身或导航至 Frame 内部的空白页。
+    ///     可用于自身或导航至 Frame 内部的空白页。
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        private bool _IsClicks;
+        private bool _isNarrow;
+
+        private Type _lastDetailFramePageType;
+        private object[] _lastDetailFramepar;
+
         public MainPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
+            NavigationCacheMode = NavigationCacheMode.Enabled;
             SystemNavigationManager.GetForCurrentView().BackRequested += MainPage_BackRequested;
+
+            NavigationHelper.MianNavigateToEvent += NavigationHelper_MianNavigateToEvent;
+            ;
+            NavigationHelper.DetailNavigateToEvent += NavigationHelperDetailNavigateToEvent;
+            ;
+            NavigationHelper.MasterNavigateToEvent += NavigationHelperMasterNavigateToEvent;
+
+            NavigationHelper.SendNavigateTo(NavigateMode.Detail, typeof(DetailBlankPage));
+            NavigationHelper.SendNavigateTo(NavigateMode.Master, typeof(GankListPage));
         }
-        bool IsClicks = false;
+
         private async void MainPage_BackRequested(object sender, BackRequestedEventArgs e)
         {
-            if (FrameDetail.CanGoBack)
+            if (Frame.CanGoBack)
+            {
+                e.Handled = true;
+                Frame.GoBack();
+                FrameDetail.GoBack();
+            }
+            else if (FrameDetail.CanGoBack)
             {
                 e.Handled = true;
                 FrameDetail.GoBack();
@@ -51,44 +63,33 @@ namespace Gank
                 }
                 else
                 {
-
                     if (e.Handled == false)
-                    {
-                        if (IsClicks)
+                        if (_IsClicks)
                         {
                             Application.Current.Exit();
                         }
                         else
                         {
-                            IsClicks = true;
+                            _IsClicks = true;
                             e.Handled = true;
                             MessShow.Show("再按一次退出应用", 1500);
                             await Task.Delay(1500);
-                            IsClicks = false;
+                            _IsClicks = false;
                         }
-                    }
-
                 }
             }
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            UpdateForVisualState(AdaptiveStates.CurrentState);
         }
 
         private void AdaptiveStates_CurrentStateChanged(object sender, VisualStateChangedEventArgs e)
         {
             UpdateForVisualState(e.NewState, e.OldState);
         }
-
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-            FrameDetail.Navigate(typeof(DetailBlankPage));
-            NavigationHelper.MianNavigateToEvent += NavigationHelper_MianNavigateToEvent; ;
-            NavigationHelper.DetailNavigateToEvent += NavigationHelperDetailNavigateToEvent; ;
-            NavigationHelper.MasterNavigateToEvent += NavigationHelperMasterNavigateToEvent; ;
-
-            NavigationHelper.SendNavigateTo(NavigateMode.Master, typeof(GankListPage));
-        }
-
-
 
         private void NavigationHelperDetailNavigateToEvent(Type page, params object[] par)
         {
@@ -102,21 +103,22 @@ namespace Gank
 
         private void NavigationHelper_MianNavigateToEvent(Type page, params object[] par)
         {
-            this.Frame.Navigate(page, par);
-
+            Frame.Navigate(page, par);
+            _lastDetailFramePageType = page;
+            _lastDetailFramepar = par;
         }
 
-     
 
         private void UpdateForVisualState(VisualState newState, VisualState oldState = null)
         {
-
+            _isNarrow = newState == NarrowState;
+            if (_isNarrow && FrameDetail.CanGoBack)
+                NavigationHelper.SendNavigateTo(NavigateMode.Main, _lastDetailFramePageType, _lastDetailFramepar);
         }
-
 
         private void LayoutRoot_Loaded(object sender, RoutedEventArgs e)
         {
-            var titleBar = Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().TitleBar;
+            var titleBar = ApplicationView.GetForCurrentView().TitleBar;
             titleBar.BackgroundColor = Color.FromArgb(0xFF, 0x3B, 0x3C, 0x41);
             titleBar.ForegroundColor = Colors.White;
             titleBar.ButtonBackgroundColor = Color.FromArgb(0xFF, 0x3B, 0x3C, 0x41);
@@ -133,44 +135,35 @@ namespace Gank
             titleBar.ButtonInactiveBackgroundColor = Color.FromArgb(0xFF, 0x2B, 0x1C, 0x41);
             titleBar.ButtonInactiveForegroundColor = Colors.DarkGray;
         }
+
         private void FrameNavigation_Navigated(object sender, NavigationEventArgs e)
         {
-          MessShow.Show(FrameMaster.BackStack.Count.ToString(),2000); 
-                if (FrameMaster.CanGoBack)
-                {
-                    SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
-                }
-                else
-                {
-                    SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
-
-                }
-
+            CheckBackVisible();
         }
 
         private void MasterListView_ItemClick(object sender, ItemClickEventArgs e)
         {
             var info = e.ClickedItem as GankModel;
-            FrameMaster.Navigate(typeof(DailyContentPage), info,new DrillInNavigationTransitionInfo());
+            FrameMaster.Navigate(typeof(DailyContentPage), info, new DrillInNavigationTransitionInfo());
         }
 
         private void FrameContent_Navigated(object sender, NavigationEventArgs e)
         {
-          MessShow.Show(FrameMaster.BackStack.Count.ToString(),2000);
-            if (FrameDetail.CanGoBack)
-            {
-                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
-            }
-            else
-            {
-                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
-
-            }
+            CheckBackVisible();
         }
 
-        private void PullToRefreshBox_RefreshInvoked(Windows.UI.Xaml.DependencyObject sender, object args)
+        private void CheckBackVisible()
         {
+            if (FrameMaster.CanGoBack || FrameDetail.CanGoBack)
+                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
+                    AppViewBackButtonVisibility.Visible;
+            else
+                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
+                    AppViewBackButtonVisibility.Collapsed;
+        }
 
+        private void PullToRefreshBox_RefreshInvoked(DependencyObject sender, object args)
+        {
         }
     }
 }

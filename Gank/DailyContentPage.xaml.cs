@@ -23,19 +23,18 @@ namespace Gank
             GankGroupModels.Source = _gankGroups;
         }
 
-        public GankModel GankModel { get; set; }
+        public GankModel _gankModel;
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            if (e.NavigationMode == NavigationMode.New)
-                GankModel = (GankModel)((object[]) e.Parameter)[0];
-            GetGankDailyDate();
+            _gankModel = (GankModel)((object[]) e.Parameter)[0];
+             GetGankDailyDate();
         }
 
         private async void GetGankDailyDate()
         {
-            var datas = await ApiServer.GetGankDailyDate(GankModel.PublishedAt);
+            var datas = await ApiServer.GetGankDailyDate(_gankModel.PublishedAt);
 
 //            var groupDates = new List<GroupModel>();
             AddGroup(_gankGroups, datas.results.休息视频);
@@ -43,9 +42,6 @@ namespace Gank
             AddGroup(_gankGroups, datas.results.iOS);
             AddGroup(_gankGroups, datas.results.前端);
 
-//                        GankGroupModels.Source=groupDates;
-//                        ListView.ItemsSource = GankGroupModels;
-//            _gankGroups.Add();
         }
 
         private void AddGroup(ObservableCollection<GroupModel> groupDates, List<GankModel> items)
@@ -57,7 +53,8 @@ namespace Gank
         private void ListView_ItemClick(object sender, ItemClickEventArgs e)
         {
             var info = e.ClickedItem as GankModel;
-            NavigationHelper.SendNavigateTo(NavigateMode.Detail, typeof(WebViewPage), info);
+            NavigationHelper.SendNavigateTo(NavigateMode.Main, typeof(WebViewPage), info,true);
+            NavigationHelper.SendNavigateTo(NavigateMode.Detail, typeof(WebViewPage), info,false);
         }
 
     }

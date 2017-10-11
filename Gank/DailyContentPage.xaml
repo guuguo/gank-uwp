@@ -27,56 +27,56 @@
         </DataTemplate>
         <CollectionViewSource x:Name="GankGroupModels"   IsSourceGrouped="True"  />
     </Page.Resources>
-        <ScrollViewer>
-            <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <Grid>
-                    <Image MinHeight="300" Grid.Row="0" Source="{x:Bind GankModel.Url}" HorizontalAlignment="Stretch" />
-                    <StackPanel
+    <ScrollViewer>
+        <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid>
+                <Image MinHeight="300" Grid.Row="0" Source="{x:Bind _gankModel.Url}" HorizontalAlignment="Stretch" />
+                <StackPanel
                     Background="#33000000"
                     Padding="20,8,20,20" VerticalAlignment="Bottom"
                     HorizontalAlignment="Stretch">
-                        <TextBlock Foreground="White"
-                               Text="{x:Bind GankModel.Desc}" FontSize="48" FontWeight="Bold" />
-                    </StackPanel>
-                </Grid>
+                    <TextBlock Foreground="White"
+                               Text="{x:Bind _gankModel.Desc}" FontSize="48" FontWeight="Bold" />
+                </StackPanel>
+            </Grid>
 
-                <ListView
+            <ListView
                 Padding="0,0,0,50"
                 Background="#F2F2F2"
-                    IsItemClickEnabled="True" ItemClick="ListView_ItemClick"
+                IsItemClickEnabled="True" ItemClick="ListView_ItemClick"
                 ItemsSource="{x:Bind GankGroupModels.View}"
                 x:Name="ListView" ItemTemplate="{StaticResource DataTemplate}"
                 Grid.Row="1"
                 ScrollViewer.VerticalScrollMode="Disabled" >
-                    <ListView.ItemContainerStyle>
-                        <Style TargetType="ListViewItem">
-                            <Setter Property="Background" Value="#FFFFFF"/>
-                            <Setter Property="Padding" Value="0,0,0,0"/>
-                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                        </Style>
-                    </ListView.ItemContainerStyle>
-                    <ListView.GroupStyle>
-                        <GroupStyle >
-                            <GroupStyle.HeaderContainerStyle>
-                                <Style TargetType="ListViewHeaderItem">
-                                    <Setter Property="Padding" Value="0,0,0,0"/>
-                                    <Setter Property="Margin" Value="0,0,0,0"/>
-                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                                    <Setter Property="BorderThickness" Value="0"></Setter>
-                                </Style>
-                            </GroupStyle.HeaderContainerStyle>
-                            <GroupStyle.HeaderTemplate>
-                                <DataTemplate x:Name="HeadTemplate" x:DataType="bean:GroupModel">
-                                    <TextBlock Text="{x:Bind GroupKey}" Margin="20,10,20,10"/>
-                                </DataTemplate>
-                            </GroupStyle.HeaderTemplate>
-                        </GroupStyle>
-                    </ListView.GroupStyle>
-                </ListView>
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="Background" Value="#FFFFFF"/>
+                        <Setter Property="Padding" Value="0,0,0,0"/>
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.GroupStyle>
+                    <GroupStyle >
+                        <GroupStyle.HeaderContainerStyle>
+                            <Style TargetType="ListViewHeaderItem">
+                                <Setter Property="Padding" Value="0,0,0,0"/>
+                                <Setter Property="Margin" Value="0,0,0,0"/>
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                <Setter Property="BorderThickness" Value="0"></Setter>
+                            </Style>
+                        </GroupStyle.HeaderContainerStyle>
+                        <GroupStyle.HeaderTemplate>
+                            <DataTemplate x:Name="HeadTemplate" x:DataType="bean:GroupModel">
+                                <TextBlock Text="{x:Bind GroupKey}" Margin="20,10,20,10"/>
+                            </DataTemplate>
+                        </GroupStyle.HeaderTemplate>
+                    </GroupStyle>
+                </ListView.GroupStyle>
+            </ListView>
         </Grid>
-        </ScrollViewer>
+    </ScrollViewer>
 </Page>
