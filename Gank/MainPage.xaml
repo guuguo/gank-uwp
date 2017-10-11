@@ -88,12 +88,7 @@
             <ColumnDefinition x:Name="DetailColumn" Width="*" />
         </Grid.ColumnDefinitions>
 
-        <Grid x:Name="bg" Background="AliceBlue" Visibility="Visible" Grid.Column="1" Grid.RowSpan="2">
-            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                <TextBlock Opacity="0.8" FontSize="18" HorizontalAlignment="Center">欢迎使用Gank</TextBlock>
-            </StackPanel>
-
-        </Grid>
+       
         <Frame x:Name="FrameMaster" Grid.RowSpan="2"  Navigated="FrameNavigation_Navigated">
             <Frame.ContentTransitions>
                 <TransitionCollection>

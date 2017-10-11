@@ -97,19 +97,20 @@
     </Compile>
     <Compile Include="Bean\GankDailyResultDetail.cs" />
     <Compile Include="Bean\GankDailyResult.cs" />
+    <Compile Include="Bean\GankModelCollection.cs" />
     <Compile Include="Bean\GankNetResult.cs" />
     <Compile Include="Bean\GroupModel.cs" />
     <Compile Include="Bean\GankModel.cs" />
     <Compile Include="Bean\GankTypeDatas.cs" />
-    <Compile Include="BlankPage.xaml.cs">
-      <DependentUpon>BlankPage.xaml</DependentUpon>
+    <Compile Include="DetailBlankPage.xaml.cs">
+      <DependentUpon>DetailBlankPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Constant.cs" />
     <Compile Include="Controller\MessageShow.xaml.cs">
       <DependentUpon>MessageShow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="GankDetailPage.xaml.cs">
-      <DependentUpon>GankDetailPage.xaml</DependentUpon>
+    <Compile Include="WebViewPage.xaml.cs">
+      <DependentUpon>WebViewPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helper\NavigationHelper.cs" />
     <Compile Include="GankListPage.xaml.cs">
@@ -124,6 +125,7 @@
     <Compile Include="DailyContentPage.xaml.cs">
       <DependentUpon>DailyContentPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\GankListViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -147,7 +149,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="BlankPage.xaml">
+    <Page Include="DetailBlankPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -155,7 +157,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="GankDetailPage.xaml">
+    <Page Include="WebViewPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -183,9 +185,7 @@
       <Version>0.3.4</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ViewModels\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

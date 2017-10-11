@@ -16,7 +16,6 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
-using BK20;
 using Gank.Bean;
 using Gank.Helper;
 using Gank.Net;
@@ -81,7 +80,7 @@ namespace Gank
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            FrameDetail.Navigate(typeof(BlankPage));
+            FrameDetail.Navigate(typeof(DetailBlankPage));
             NavigationHelper.MianNavigateToEvent += NavigationHelper_MianNavigateToEvent; ;
             NavigationHelper.DetailNavigateToEvent += NavigationHelperDetailNavigateToEvent; ;
             NavigationHelper.MasterNavigateToEvent += NavigationHelperMasterNavigateToEvent; ;

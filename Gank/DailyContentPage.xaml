@@ -47,7 +47,7 @@
                 <ListView
                 Padding="0,0,0,50"
                 Background="#F2F2F2"
-                ItemClick="ListView_ItemClick"
+                    IsItemClickEnabled="True" ItemClick="ListView_ItemClick"
                 ItemsSource="{x:Bind GankGroupModels.View}"
                 x:Name="ListView" ItemTemplate="{StaticResource DataTemplate}"
                 Grid.Row="1"

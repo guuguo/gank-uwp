@@ -76,6 +76,7 @@
             x:Name="MasterListView"
             Grid.Row="1"
             Grid.Column="0"
+                ItemsSource="{x:Bind viewModel.DataSource}"
             ItemContainerTransitions="{x:Null}"
             ItemTemplate="{StaticResource MasterListViewItemTemplate}"
      

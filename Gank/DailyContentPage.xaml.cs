@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using Gank.Bean;
+using Gank.Helper;
 using Gank.Net;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
@@ -55,7 +56,8 @@ namespace Gank
 
         private void ListView_ItemClick(object sender, ItemClickEventArgs e)
         {
-
+            var info = e.ClickedItem as GankModel;
+            NavigationHelper.SendNavigateTo(NavigateMode.Detail, typeof(WebViewPage), info);
         }
 
     }
